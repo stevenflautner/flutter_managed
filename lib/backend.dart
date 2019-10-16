@@ -8,8 +8,8 @@ void run({
   @required ValueBuilder builder,
 }) {
   register(
-      repositories: repositories,
-      services: services
+    repositories: repositories,
+    services: services
   );
   runApp(App());
 }
