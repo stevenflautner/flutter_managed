@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 
 // Import it for access to all registered globals
@@ -11,4 +12,12 @@ final get = GetIt.instance;
 // providers instead.
 void registerGlobals(List<Object> globals) {
   globals.forEach((object) => get.registerSingleton(object));
+}
+
+void register({
+  @required List<Object> repositories,
+  @required List<Object> services
+}) {
+  repositories.forEach((object) => get.registerLazySingleton(object));
+  services.forEach((object) => get.registerSingleton(object));
 }
