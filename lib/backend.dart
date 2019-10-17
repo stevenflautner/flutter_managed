@@ -12,14 +12,16 @@ void run({
   _DependencyInitializer dependencies,
   List<Object> repositories,
   _ServiceInitializer services,
+  _ServiceInitializer lazyServices,
   _ProviderInitializer providers,
-  @required ValueBuilder builder,
+  @required Function(BuildContext) builder,
 }) async {
   final dependency = Dependency(dependencies != null ? await dependencies() : null);
 
   register(
     repositories,
     services(dependency),
+    lazyServices(dependency),
   );
 
   runApp(App(
