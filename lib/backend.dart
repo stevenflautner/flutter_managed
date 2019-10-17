@@ -4,19 +4,19 @@ import 'package:provider/provider.dart';
 
 import 'dependency.dart';
 
-typedef Future<List<Object>> _DependencyInitializer();
+typedef Future<List<Object>> Initializer();
 typedef List<Object> _ServiceInitializer(Dependency dependency);
 typedef List<SingleChildCloneableWidget> _ProviderInitializer(Dependency dependency);
 
 void run({
-  _DependencyInitializer dependencies,
+  Initializer initializer,
   List<Object> repositories,
   _ServiceInitializer services,
   _ServiceInitializer lazyServices,
   _ProviderInitializer providers,
-  @required Function(BuildContext) builder,
+  @required Function(BuildContext, Dependency) builder,
 }) async {
-  final dependency = Dependency(dependencies != null ? await dependencies() : null);
+  final dependency = Dependency(initializer != null ? await initializer() : null);
 
   register(
     repositories,
@@ -27,15 +27,17 @@ void run({
   runApp(App(
     providers: providers(dependency),
     builder: builder,
+    dependency: dependency,
   ));
 }
 
 class App extends StatefulWidget {
 
-  final Function(BuildContext) builder;
+  final Dependency dependency;
+  final Function(BuildContext, Dependency) builder;
   final List<SingleChildCloneableWidget> providers;
 
-  const App({Key key, @required this.providers, @required this.builder }) : super(key: key);
+  const App({Key key, @required this.providers, @required this.builder, @required this.dependency }) : super(key: key);
 
   @override
   _AppState createState() => _AppState();
@@ -51,10 +53,10 @@ class _AppState extends State<App> {
     if (widget.providers != null)
       return MultiProvider(
         providers: widget.providers,
-        child: widget.builder(context),
+        child: widget.builder(context, widget.dependency),
       );
     else
-      return widget.builder(context);
+      return widget.builder(context, widget.dependency);
   }
 
   void rebuild() {
