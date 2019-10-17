@@ -1,4 +1,4 @@
-import 'package:flutter_backend/utils.dart';
+import 'package:flutter/material.dart';
 
 class Dependency {
 
@@ -7,10 +7,13 @@ class Dependency {
   Dependency(this._data);
 
   T of<T>() {
-    for (Object object in _data) {
-      final type = typeOf<T>();
-      if (object.runtimeType == type)
-        return object as T;
+    if (_data != null) {
+      final matcher = TypeMatcher<T>();
+
+      for (Object object in _data) {
+        if (matcher.check(object))
+          return object as T;
+      }
     }
     throw DependencyNotFoundError();
   }

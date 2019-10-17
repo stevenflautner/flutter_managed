@@ -15,7 +15,7 @@ void run({
   _ProviderInitializer providers,
   @required ValueBuilder builder,
 }) async {
-  final dependency = Dependency(await dependencies());
+  final dependency = Dependency(dependencies != null ? await dependencies() : null);
 
   register(
     repositories,
@@ -28,21 +28,34 @@ void run({
   ));
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
 
-  final ValueBuilder builder;
+  final Function(BuildContext) builder;
   final List<SingleChildCloneableWidget> providers;
 
   const App({Key key, @required this.providers, @required this.builder }) : super(key: key);
 
   @override
+  _AppState createState() => _AppState();
+
+  static _AppState of(BuildContext context) {
+    return context.ancestorStateOfType(const TypeMatcher<_AppState>());
+  }
+}
+
+class _AppState extends State<App> {
+  @override
   Widget build(BuildContext context) {
-    if (providers != null)
+    if (widget.providers != null)
       return MultiProvider(
-        providers: providers,
-        child: builder(context),
+        providers: widget.providers,
+        child: widget.builder(context),
       );
     else
-      return builder(context);
+      return widget.builder(context);
+  }
+
+  void rebuild() {
+    setState(() {});
   }
 }
