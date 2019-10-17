@@ -5,24 +5,25 @@ import 'package:provider/provider.dart';
 import 'dependency.dart';
 
 typedef Future<List<Object>> _DependencyInitializer();
-typedef List<Object> _Initializer(Dependency dependency);
+typedef List<Object> _ServiceInitializer(Dependency dependency);
+typedef List<SingleChildCloneableWidget> _ProviderInitializer(Dependency dependency);
 
 void run({
   _DependencyInitializer dependencies,
-  _Initializer repositories,
-  _Initializer services,
-  List<SingleChildCloneableWidget> providers,
+  List<Object> repositories,
+  _ServiceInitializer services,
+  _ProviderInitializer providers,
   @required ValueBuilder builder,
 }) async {
   final dependency = Dependency(await dependencies());
 
   register(
-    repositories(dependency),
+    repositories,
     services(dependency),
   );
 
   runApp(App(
-    providers: providers,
+    providers: providers(dependency),
     builder: builder,
   ));
 }
