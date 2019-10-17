@@ -2,13 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_backend/locator.dart';
 import 'package:provider/provider.dart';
 
+import 'dependency.dart';
+
+typedef Future<List<Object>> _DependencyInitializer();
+typedef Future<List<Object>> _Initializer(Dependency dependency);
+
 void run({
-  List<Object> repositories,
-  List<Object> services,
+  _DependencyInitializer dependencies,
+  _Initializer repositories,
+  _Initializer services,
   List<SingleChildCloneableWidget> providers,
   @required ValueBuilder builder,
-}) {
-  register(repositories, services);
+}) async {
+  final dependency = Dependency(await dependencies());
+
+  register(
+    await repositories(dependency),
+    await services(dependency),
+  );
+
   runApp(App(
     providers: providers,
     builder: builder,
