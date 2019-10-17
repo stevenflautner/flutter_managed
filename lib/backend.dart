@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'dependency.dart';
 
 typedef Future<List<Object>> _DependencyInitializer();
-typedef Future<List<Object>> _Initializer(Dependency dependency);
+typedef List<Object> _Initializer(Dependency dependency);
 
 void run({
   _DependencyInitializer dependencies,
@@ -17,8 +17,8 @@ void run({
   final dependency = Dependency(await dependencies());
 
   register(
-    await repositories(dependency),
-    await services(dependency),
+    repositories(dependency),
+    services(dependency),
   );
 
   runApp(App(
