@@ -74,13 +74,13 @@ class _AppState extends State<App> {
   }
 
   Widget _buildWidget() {
-    final localizator = widget.dependency.of<Localization>();
+    final Localization localization = get();
 
     return MaterialApp(
       home: widget.startScreen,
-      supportedLocales: localizator?.supportedLocales,
-      localizationsDelegates: localizator != null ? [
-        localizator,
+      supportedLocales: localization?.supportedLocales,
+      localizationsDelegates: localization != null ? [
+        localization,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ] : null,
