@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
-final get = GetIt.instance
-  ..allowReassignment = true;
+final _get = GetIt.instance;
 
 // Registers Objects from globals as a singleton
 // Register services that need to be alive
@@ -9,11 +10,19 @@ final get = GetIt.instance
 // e.g. Api,
 // Don't register Listenables here. For that, use
 // providers instead.
-void register(List<Object> repositories, List<Object> services, List<Object> lazyServices) {
+void initialize(
+  List<Object> repositories,
+  List<Object> services,
+  List<Object> lazyServices,
+) {
   if (repositories != null)
-    repositories.forEach((object) => get.registerLazySingleton(object));
+    repositories.forEach((object) => _get.registerLazySingleton(object));
   if (services != null)
-    services.forEach((object) => get.registerSingleton(object));
+    services.forEach((object) => _get.registerSingleton(object));
   if (lazyServices != null)
-    lazyServices.forEach((object) => get.registerLazySingleton(object));
+    lazyServices.forEach((object) => _get.registerLazySingleton(object));
 }
+
+T get<T>() => _get<T>();
+T depends<T>(BuildContext context) => Provider.of<T>(context);
+T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);
