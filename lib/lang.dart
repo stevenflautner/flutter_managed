@@ -22,18 +22,13 @@ class Lang {
 
   }
 
-//  static Lang of(BuildContext context) => Localizations.of<Lang>(context, Lang);
-
-  static LocalizationsDelegate<Lang> register(List<String> supported)
-    => AppLocalizationsDelegate(supported);
-
 }
 
-class AppLocalizationsDelegate extends LocalizationsDelegate<Lang> {
+class Localizator extends LocalizationsDelegate<Lang> {
 
   final List<String> supportedCodes;
 
-  AppLocalizationsDelegate(this.supportedCodes);
+  Localizator({ @required this.supportedCodes });
 
   @override
   bool isSupported(Locale locale) => supportedCodes.contains(locale.languageCode);
@@ -54,7 +49,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<Lang> {
   }
 
   @override
-  bool shouldReload(AppLocalizationsDelegate old) => false;
+  bool shouldReload(Localizator old) => false;
 
   Iterable<Locale> get supportedLocales => supportedCodes.map((code) => Locale(code));
 
