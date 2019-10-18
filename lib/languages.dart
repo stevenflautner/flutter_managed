@@ -6,53 +6,47 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'locator.dart';
 
-text(String key) => get<Languages>().current.text(key);
+text(String key) => get<Localization>().language.text(key);
 
-// Service
-class Languages {
-
-  CurrentLanguage current;
-
-}
-
-class CurrentLanguage {
+class Language {
 
   final Locale locale;
   final Map<String, String> _strings;
 
-  CurrentLanguage(this.locale, this._strings);
+  Language(this.locale, this._strings);
 
   String text(String key) => _strings[key];
 
 }
 
-class Localizator extends LocalizationsDelegate<CurrentLanguage> {
+class Localization extends LocalizationsDelegate<Language> {
 
   final List<String> supportedCodes;
+  Language language;
 
-  Localizator({ @required this.supportedCodes });
+  Localization({ @required this.supportedCodes });
 
   @override
   bool isSupported(Locale locale) => supportedCodes.contains(locale.languageCode);
 
   @override
-  Future<CurrentLanguage> load(Locale locale) async {
+  Future<Language> load(Locale locale) async {
     final stored = get<SharedPreferences>().getString("languageCode");
     if (stored != null) locale = Locale(stored);
 
-    final lang = CurrentLanguage(
+    final language = Language(
       locale,
       jsonDecode(
         await rootBundle.loadString('lang/${locale.languageCode}.json')
       )
     );
-    get<Languages>().current = lang;
+    get<Localization>().language = language;
 
-    return lang;
+    return language;
   }
 
   @override
-  bool shouldReload(Localizator old) => false;
+  bool shouldReload(Localization old) => false;
 
   Iterable<Locale> get supportedLocales => supportedCodes.map((code) => Locale(code));
 

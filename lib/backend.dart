@@ -25,7 +25,6 @@ void run({
   initialize(
     repositories,
     [
-      Languages(),
       await SharedPreferences.getInstance(),
       ...services(dependency)
     ],
@@ -75,7 +74,7 @@ class _AppState extends State<App> {
   }
 
   Widget _buildWidget() {
-    final localizator = widget.dependency.of<Localizator>();
+    final localizator = widget.dependency.of<Localization>();
 
     return MaterialApp(
       home: widget.startScreen,
