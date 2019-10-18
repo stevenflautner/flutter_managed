@@ -6,18 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'locator.dart';
 
+text(String key) => get<Lang>().text(key);
+
 class Lang {
 
   final Locale locale;
   Map<String, String> _strings;
 
-  Lang(this.locale);
-
-  Future<void> load() async {
-    _strings = jsonDecode(
-      await rootBundle.loadString('lang/${locale.languageCode}.json')
-    );
-  }
+  Lang(this.locale, this._strings);
 
   String text(String key) => _strings[key];
 
@@ -26,7 +22,7 @@ class Lang {
 
   }
 
-  static Lang of(BuildContext context) => Localizations.of<Lang>(context, Lang);
+//  static Lang of(BuildContext context) => Localizations.of<Lang>(context, Lang);
 
   static LocalizationsDelegate<Lang> register(List<String> supported)
     => AppLocalizationsDelegate(supported);
@@ -47,8 +43,13 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<Lang> {
     final stored = get<SharedPreferences>().getString("languageCode");
     if (stored != null) locale = Locale(stored);
 
-    final lang = Lang(locale);
-    await lang.load();
+    final lang = Lang(
+      locale,
+      jsonDecode(
+          await rootBundle.loadString('lang/${locale.languageCode}.json')
+      )
+    );
+    get.registerSingleton(lang);
     return lang;
   }
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_backend/lang.dart';
 import 'package:flutter_backend/locator.dart';
 import 'package:flutter_backend/setup.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'dependency.dart';
 
@@ -10,12 +12,13 @@ typedef List<Object> _ServiceInitializer(Dependency dependency);
 typedef List<SingleChildCloneableWidget> _ProviderInitializer(Dependency dependency);
 
 void run({
+  @required String title,
   Initializer initializer,
   List<Object> repositories,
   _ServiceInitializer services,
   _ServiceInitializer lazyServices,
   _ProviderInitializer providers,
-  @required Function(BuildContext, Dependency) builder,
+  @required Widget startScreen,
 }) async {
   await registerDefault();
 
@@ -29,18 +32,18 @@ void run({
 
   runApp(App(
     providers: providers(dependency),
-    builder: builder,
     dependency: dependency,
+    startScreen: startScreen,
   ));
 }
 
 class App extends StatefulWidget {
 
   final Dependency dependency;
-  final Function(BuildContext, Dependency) builder;
+  final Widget startScreen;
   final List<SingleChildCloneableWidget> providers;
 
-  const App({Key key, @required this.providers, @required this.builder, @required this.dependency }) : super(key: key);
+  const App({Key key, @required this.providers, @required this.dependency, @required this.startScreen }) : super(key: key);
 
   @override
   _AppState createState() => _AppState();
@@ -56,10 +59,23 @@ class _AppState extends State<App> {
     if (widget.providers != null)
       return MultiProvider(
         providers: widget.providers,
-        child: widget.builder(context, widget.dependency),
+        child: _buildWidget()
       );
     else
-      return widget.builder(context, widget.dependency);
+      return _buildWidget();
+  }
+
+  Widget _buildWidget() {
+    final localization = widget.dependency.of<AppLocalizationsDelegate>();
+    return MaterialApp(
+      home: widget.startScreen,
+      supportedLocales: localization?.supportedLocales,
+      localizationsDelegates: localization != null ? [
+        localization,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ] : null,
+    );
   }
 
   void rebuild() {

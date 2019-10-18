@@ -15,7 +15,7 @@ class Dependency {
           return object as T;
       }
     }
-    throw DependencyNotFoundError();
+    return null;
   }
 }
 

@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 
-final get = GetIt.instance;
+final get = GetIt.instance
+  ..allowReassignment = true;
 
 // Registers Objects from globals as a singleton
 // Register services that need to be alive
