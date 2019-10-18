@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'locator.dart';
 
 class Lang {
 
@@ -32,15 +35,18 @@ class Lang {
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<Lang> {
 
-  final List<String> supported;
+  final List<String> supportedCodes;
 
-  AppLocalizationsDelegate(this.supported);
+  AppLocalizationsDelegate(this.supportedCodes);
 
   @override
-  bool isSupported(Locale locale) => supported.contains(locale.languageCode);
+  bool isSupported(Locale locale) => supportedCodes.contains(locale.languageCode);
 
   @override
   Future<Lang> load(Locale locale) async {
+    final stored = get<SharedPreferences>().getString("languageCode");
+    if (stored != null) locale = Locale(stored);
+
     final lang = Lang(locale);
     await lang.load();
     return lang;
@@ -48,4 +54,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<Lang> {
 
   @override
   bool shouldReload(AppLocalizationsDelegate old) => false;
+
+  Iterable<Locale> get supportedLocales => supportedCodes.map((code) => Locale(code));
+
 }

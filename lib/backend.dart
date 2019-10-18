@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_backend/locator.dart';
+import 'package:flutter_backend/setup.dart';
 import 'package:provider/provider.dart';
 
 import 'dependency.dart';
@@ -16,6 +17,8 @@ void run({
   _ProviderInitializer providers,
   @required Function(BuildContext, Dependency) builder,
 }) async {
+  await registerDefault();
+
   final dependency = Dependency(initializer != null ? await initializer() : null);
 
   register(
