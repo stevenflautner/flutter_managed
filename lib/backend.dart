@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dependency.dart';
 
 typedef Future<Iterable<dynamic>> Initializer();
-typedef Iterable<dynamic> _Registrator(Dependency dependency);
+typedef void _Registrator(Dependency dependency);
 typedef Iterable<SingleChildCloneableWidget> _ProviderInitializer(Dependency dependency);
 
 void run({
