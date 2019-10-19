@@ -75,7 +75,10 @@ class _AppState extends State<App> {
   }
 
   Widget _buildWidget() {
-    final Localizator localizator = get();
+    Localizator localizator;
+    try {
+      localizator = get();
+    } on ArgumentError catch(e) {}
 
     return MaterialApp(
       home: widget.startScreen,
