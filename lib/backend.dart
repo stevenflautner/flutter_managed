@@ -8,28 +8,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dependency.dart';
 
 typedef Future<Iterable<dynamic>> Initializer();
-typedef Iterable<dynamic> _ServiceInitializer(Dependency dependency);
+typedef Iterable<dynamic> _Registrator(Dependency dependency);
 typedef Iterable<SingleChildCloneableWidget> _ProviderInitializer(Dependency dependency);
 
 void run({
   @required String title,
   Initializer initializer,
-  Iterable<dynamic> repositories,
-  _ServiceInitializer services,
-  _ServiceInitializer lazyServices,
+  _Registrator registrator,
   _ProviderInitializer providers,
   @required Widget startScreen,
 }) async {
   final dependency = Dependency(initializer != null ? await initializer() : null);
 
-  initialize(
-    repositories,
-    [
-      await SharedPreferences.getInstance(),
-      ...services(dependency)
-    ],
-    lazyServices != null ? lazyServices(dependency) : null,
-  );
+  service(await SharedPreferences.getInstance());
+  registrator(dependency);
+
+//  initialize(
+//    repositories,
+//    [
+//      await SharedPreferences.getInstance(),
+//      ...services(dependency)
+//    ],
+//    lazyServices != null ? lazyServices(dependency) : null,
+//  );
 
   runApp(App(
     providers: providers(dependency),

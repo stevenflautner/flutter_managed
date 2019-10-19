@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -26,3 +27,10 @@ void initialize(
   if (lazyServices != null)
     lazyServices.forEach((object) => _get.registerLazySingleton(() => object));
 }
+
+void service<T>(T service) =>  _get.registerSingleton(service);
+void repository<T>(T repository) =>  _get.registerLazySingleton(() => repository);
+
+//void _registerLazy<T>() {
+//  TypeMatcher()
+//}
