@@ -7,14 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dependency.dart';
 
-typedef Future<Iterable<Object>> Initializer();
-typedef Iterable<Object> _ServiceInitializer(Dependency dependency);
+typedef Future<Iterable<dynamic>> Initializer();
+typedef Iterable<dynamic> _ServiceInitializer(Dependency dependency);
 typedef Iterable<SingleChildCloneableWidget> _ProviderInitializer(Dependency dependency);
 
 void run({
   @required String title,
   Initializer initializer,
-  Iterable<Object> repositories,
+  Iterable<dynamic> repositories,
   _ServiceInitializer services,
   _ServiceInitializer lazyServices,
   _ProviderInitializer providers,
