@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_backend/languages.dart';
+import 'package:flutter_backend/localization.dart';
 import 'package:flutter_backend/locator.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -74,13 +74,13 @@ class _AppState extends State<App> {
   }
 
   Widget _buildWidget() {
-    final Localization localization = get();
+    final Localizator localizator = get();
 
     return MaterialApp(
       home: widget.startScreen,
-      supportedLocales: localization?.supportedLocales,
-      localizationsDelegates: localization != null ? [
-        localization,
+      supportedLocales: localizator?.supportedLocales,
+      localizationsDelegates: localizator != null ? [
+        localizator,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ] : null,
