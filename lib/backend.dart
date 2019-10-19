@@ -28,7 +28,7 @@ void run({
       await SharedPreferences.getInstance(),
       ...services(dependency)
     ],
-    lazyServices(dependency),
+    lazyServices != null ? lazyServices(dependency) : null,
   );
 
   runApp(App(
@@ -78,6 +78,7 @@ class _AppState extends State<App> {
 
     return MaterialApp(
       home: widget.startScreen,
+      locale: Localizator.forcedLocale(),
       supportedLocales: localizator?.supportedLocales,
       localizationsDelegates: localizator != null ? [
         localizator,

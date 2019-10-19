@@ -29,7 +29,7 @@ class Localizator extends LocalizationsDelegate<Localization> {
   @override
   bool isSupported(Locale locale) => supportedCodes.contains(locale.languageCode);
 
-  static Locale selectedLocale() {
+  static Locale forcedLocale() {
     final stored = get<SharedPreferences>().getString("languageCode");
     if (stored != null) return Locale(stored);
     return null;
