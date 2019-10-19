@@ -20,9 +20,9 @@ void initialize(
   List<Object> lazyServices,
 ) {
   if (repositories != null)
-    repositories.forEach((object) => _get.registerLazySingleton(object));
+    repositories.forEach((object) => _get.registerLazySingleton(() => object));
   if (services != null)
     services.forEach((object) => _get.registerSingleton(object));
   if (lazyServices != null)
-    lazyServices.forEach((object) => _get.registerLazySingleton(object));
+    lazyServices.forEach((object) => _get.registerLazySingleton(() => object));
 }
