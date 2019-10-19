@@ -78,17 +78,22 @@ class _AppState extends State<App> {
     Localizator localizator;
     try {
       localizator = get();
-    } on ArgumentError catch(e) {}
+    } on ArgumentError catch(_) {}
+
+    if (localizator != null)
+      return MaterialApp(
+        home: widget.startScreen,
+        locale: Localizator.forcedLocale(),
+        supportedLocales: localizator.supportedLocales,
+        localizationsDelegates: [
+          localizator,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+      );
 
     return MaterialApp(
       home: widget.startScreen,
-      locale: Localizator.forcedLocale(),
-      supportedLocales: localizator?.supportedLocales,
-      localizationsDelegates: localizator != null ? [
-        localizator,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ] : null,
     );
   }
 
