@@ -15,9 +15,9 @@ T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);
 // Don't register Listenables here. For that, use
 // providers instead.
 void initialize(
-  List<dynamic> repositories,
-  List<dynamic> services,
-  List<dynamic> lazyServices,
+    Iterable<dynamic> repositories,
+    Iterable<dynamic> services,
+    Iterable<dynamic> lazyServices,
 ) {
   if (repositories != null)
     repositories.forEach((object) => _get.registerLazySingleton(() => object));
