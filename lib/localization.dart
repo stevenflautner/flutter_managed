@@ -8,6 +8,10 @@ import 'locator.dart';
 
 text(String key) => get<Localizator>().localization.text(key);
 
+extension TextLocalization on String {
+  String localized() => text(this);
+}
+
 class Localization {
 
   final Locale locale;
@@ -30,7 +34,7 @@ class Localizator extends LocalizationsDelegate<Localization> {
   bool isSupported(Locale locale) => supportedCodes.contains(locale.languageCode);
 
   static Locale forcedLocale() {
-    final stored = get<SharedPreferences>().getString("languageCode");
+    final stored = get<SharedPreferences>().getString('languageCode');
     if (stored != null) return Locale(stored);
     return null;
   }

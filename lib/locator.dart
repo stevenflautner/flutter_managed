@@ -6,8 +6,14 @@ import 'package:provider/provider.dart';
 final _get = GetIt.instance;
 
 T get<T>() => _get<T>();
-T depends<T>(BuildContext context) => Provider.of<T>(context);
-T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);
+
+extension ContextLocator on BuildContext {
+  T get<T>() => Provider.of<T>(this, listen: false);
+  T dependency<T>() => Provider.of<T>(this);
+}
+
+//T depends<T>(BuildContext context) => Provider.of<T>(context);
+//T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);
 
 //// Registers Objects from globals as a singleton
 //// Register services that need to be alive
