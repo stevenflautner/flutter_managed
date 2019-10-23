@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -35,8 +34,8 @@ T get<T>() => _get<T>();
 //}
 
 void service<T>(T service) =>  _get.registerSingleton(service);
-void lazyService<T>(T service) =>  _get.registerLazySingleton(() => service);
-void repository<T>(T repository) =>  _get.registerLazySingleton(() => repository);
+void lazyService<T>(FactoryFunc<T> service) =>  _get.registerLazySingleton(service);
+void repository<T>(FactoryFunc<T> repository) =>  _get.registerLazySingleton(repository);
 
 //void _registerLazy<T>() {
 //  TypeMatcher()
