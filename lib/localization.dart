@@ -8,9 +8,9 @@ import 'locator.dart';
 
 text(String key) => get<Localizator>().localization.text(key);
 
-extension TextLocalization on String {
-  String localized() => text(this);
-}
+//extension TextLocalization on String {
+//  String localized() => text(this);
+//}
 
 class Localization {
 
