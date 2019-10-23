@@ -6,10 +6,10 @@ final _get = GetIt.instance;
 
 T get<T>() => _get<T>();
 
-//extension ContextLocator on BuildContext {
-//  T get<T>() => Provider.of<T>(this, listen: false);
-//  T dependency<T>() => Provider.of<T>(this);
-//}
+extension ContextLocator on BuildContext {
+  T get<T>() => Provider.of<T>(this, listen: false);
+  T dependency<T>() => Provider.of<T>(this);
+}
 
 //T depends<T>(BuildContext context) => Provider.of<T>(context);
 //T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);

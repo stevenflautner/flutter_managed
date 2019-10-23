@@ -17,25 +17,16 @@ void run({
   @required String title,
   Initializer initializer,
   _Registrator registrator,
-//  _ProviderInitializer providers,
   @required Widget startScreen,
 }) async {
   final dependency = Dependency(initializer != null ? await initializer() : null);
 
-  service(await SharedPreferences.getInstance());
-  final providers = await registrator(dependency);
-
   final SystemUiOverlayStyle overlayStyle = dependency.of();
   if (overlayStyle != null) SystemChrome.setSystemUIOverlayStyle(overlayStyle);
 
-//  initialize(
-//    repositories,
-//    [
-//      await SharedPreferences.getInstance(),
-//      ...services(dependency)
-//    ],
-//    lazyServices != null ? lazyServices(dependency) : null,
-//  );
+  service(await SharedPreferences.getInstance());
+
+  final providers = await registrator(dependency);
 
   runApp(App(
     providers: providers,
