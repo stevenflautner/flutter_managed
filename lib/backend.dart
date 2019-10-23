@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_backend/localization.dart';
 import 'package:flutter_backend/locator.dart';
@@ -7,8 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dependency.dart';
 
-typedef Future<Iterable<dynamic>> Initializer();
-typedef Iterable<SingleChildCloneableWidget> _Registrator(Dependency dependency);
+typedef FutureOr<Iterable<dynamic>> Initializer();
+typedef FutureOr<Iterable<SingleChildCloneableWidget>> _Registrator(Dependency dependency);
 
 void run({
   @required String title,
