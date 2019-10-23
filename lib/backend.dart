@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_backend/localization.dart';
 import 'package:flutter_backend/locator.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,10 @@ void run({
   final dependency = Dependency(initializer != null ? await initializer() : null);
 
   service(await SharedPreferences.getInstance());
-  final providers = registrator(dependency);
+  final providers = await registrator(dependency);
+
+  final SystemUiOverlayStyle overlayStyle = dependency.of();
+  if (overlayStyle != null) SystemChrome.setSystemUIOverlayStyle(overlayStyle);
 
 //  initialize(
 //    repositories,
