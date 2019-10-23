@@ -23,3 +23,8 @@ class DependencyNotFoundError extends Error {
   @override
   String toString() => 'Dependency was not found by the provided type';
 }
+
+class NoScroll extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) => child;
+}

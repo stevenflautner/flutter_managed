@@ -78,7 +78,6 @@ class _AppState extends State<App> {
 
     if (localizator != null)
       return MaterialApp(
-        home: widget.startScreen,
         locale: Localizator.forcedLocale(),
         theme: widget.dependency.of(),
         supportedLocales: localizator.supportedLocales,
@@ -87,11 +86,24 @@ class _AppState extends State<App> {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
+        builder: _childBuilder,
       );
 
     return MaterialApp(
       home: widget.startScreen,
+      builder: _childBuilder,
     );
+  }
+
+  Widget _childBuilder(BuildContext context, Widget child) {
+    final ScrollBehavior scrollBehavior = widget.dependency.of();
+    if (scrollBehavior != null) {
+      return ScrollConfiguration(
+        behavior: scrollBehavior,
+        child: child,
+      );
+    }
+    return child;
   }
 
   void rebuild() {
