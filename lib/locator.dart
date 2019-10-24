@@ -11,8 +11,8 @@ T get<T>() => _get<T>();
 //  T dependency<T>() => Provider.of<T>(this);
 //}
 
-//T depends<T>(BuildContext context) => Provider.of<T>(context);
-//T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);
+T depends<T>(BuildContext context) => Provider.of<T>(context);
+T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);
 
 //// Registers Objects from globals as a singleton
 //// Register services that need to be alive
