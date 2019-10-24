@@ -14,6 +14,11 @@ T get<T>() => _get<T>();
 T depends<T>(BuildContext context) => Provider.of<T>(context);
 T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);
 
+SingleChildCloneableWidget pass<T>(T value, { Widget child }) {
+  if (T is ChangeNotifier) return ChangeNotifierProvider.value(value: value as ChangeNotifier, child: child);
+  return Provider.value(value: value, child: child);
+}
+
 //// Registers Objects from globals as a singleton
 //// Register services that need to be alive
 //// for the entirety of the lifecycle of the app.
