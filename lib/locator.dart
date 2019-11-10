@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 Locator _locator;
@@ -8,7 +7,7 @@ T get<T>() => _locator<T>();
 //T depends<T>(BuildContext context) => Provider.of<T>(context);
 //T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);
 
-extension on BuildContext {
+extension Provide on BuildContext {
   T get<T>() => Provider.of<T>(this, listen: false);
   T depends<T>() => Provider.of<T>(this);
 }
