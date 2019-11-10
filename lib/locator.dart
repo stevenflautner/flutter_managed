@@ -2,46 +2,84 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
-final _get = GetIt.instance;
+Locator _locator;
 
-T get<T>() => _get<T>();
+T get<T>() => _locator<T>();
+//T depends<T>(BuildContext context) => Provider.of<T>(context);
+//T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);
 
-//extension ContextLocator on BuildContext {
-//  T get<T>() => Provider.of<T>(this, listen: false);
-//  T dependency<T>() => Provider.of<T>(this);
-//}
-
-T depends<T>(BuildContext context) => Provider.of<T>(context);
-T provide<T>(BuildContext context) => Provider.of<T>(context, listen: false);
+extension on BuildContext {
+  T get<T>() => Provider.of<T>(this, listen: false);
+  T depends<T>() => Provider.of<T>(this);
+}
 
 SingleChildCloneableWidget pass<T>(T value, { Widget child }) {
   if (T is ChangeNotifier) return ChangeNotifierProvider.value(value: value as ChangeNotifier, child: child);
   return Provider.value(value: value, child: child);
 }
 
-//// Registers Objects from globals as a singleton
-//// Register services that need to be alive
-//// for the entirety of the lifecycle of the app.
-//// e.g. Api,
-//// Don't register Listenables here. For that, use
-//// providers instead.
-//void initialize(
-//    Iterable<dynamic> repositories,
-//    Iterable<dynamic> services,
-//    Iterable<dynamic> lazyServices,
-//) {
-//  if (repositories != null)
-//    repositories.forEach((object) => _get.registerLazySingleton(() => object));
-//  if (services != null)
-//    services.forEach((object) => _get.registerSingleton(object));
-//  if (lazyServices != null)
-//    lazyServices.forEach((object) => _get.registerLazySingleton(() => object));
-//}
+void service<T>(T service) =>  _locator.registerConstant(service);
+void lazyService<T>(Builder<T> service) =>  _locator.registerLazy(service);
+void repository<T>(Builder<T> repository) =>  _locator.registerLazy(repository);
 
-void service<T>(T service) =>  _get.registerSingleton(service);
-void lazyService<T>(FactoryFunc<T> service) =>  _get.registerLazySingleton(service);
-void repository<T>(FactoryFunc<T> repository) =>  _get.registerLazySingleton(repository);
+class Locator {
 
-//void _registerLazy<T>() {
-//  TypeMatcher()
-//}
+  final _instances = Map<Type, _Instance<dynamic>>();
+
+  Locator() {
+    if (_locator != null) throw ArgumentError('Locator was already initialized');
+    _locator = this;
+  }
+
+  T call<T>() => get<T>();
+
+  T get<T>() {
+    final instance = _instances[T];
+    return instance.get() as T;
+  }
+
+  void registerConstant<T>(T instance) => _instances[T] = _Constant(instance);
+  void registerLazy<T>(Builder<T> builder) => _instances[T] = _Lazy(builder);
+  void registerFactory<T>(Builder<T> builder) => _instances[T] = _Factory(builder);
+
+//  void style<T>(T style) =>  _registerConstant(style);
+//  void service<T>(T service) =>  _registerConstant(service);
+//  void lazyService<T>(Builder<T> service) =>  _registerLazy(service);
+//  void repository<T>(Builder<T> repository) =>  _registerLazy(repository);
+
+}
+
+abstract class _Instance<T> {
+  T get();
+}
+class _Constant<T> implements _Instance<T> {
+  final T instance;
+
+  const _Constant(this.instance);
+
+  @override
+  T get() => instance;
+}
+class _Factory<T> implements _Instance<T> {
+  final Builder<T> builder;
+
+  const _Factory(this.builder);
+
+  @override
+  T get() => builder();
+}
+class _Lazy<T> implements _Instance<T> {
+  final Builder<T> builder;
+  T instance;
+
+  _Lazy(this.builder);
+
+  @override
+  T get() {
+    if (instance == null)
+      instance = builder();
+    return instance;
+  }
+}
+
+typedef Builder<T> = T Function();

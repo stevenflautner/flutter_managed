@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_backend/localization.dart';
 import 'package:flutter_backend/locator.dart';
+import 'package:flutter_backend/style.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,14 +20,15 @@ void run({
   _Registrator registrator,
   @required Widget startScreen,
 }) async {
+  final locator = Locator();
   final dependency = Dependency(initializer != null ? await initializer() : null);
-
-  final SystemUiOverlayStyle overlayStyle = dependency.of();
-  if (overlayStyle != null) SystemChrome.setSystemUIOverlayStyle(overlayStyle);
 
   service(await SharedPreferences.getInstance());
 
   final providers = await registrator(dependency);
+
+  final overlayStyle = dependency<SystemUiOverlayStyle>();
+  if (overlayStyle != null) SystemChrome.setSystemUIOverlayStyle(overlayStyle);
 
   runApp(App(
     providers: providers,
@@ -38,14 +40,14 @@ void run({
 class App extends StatefulWidget {
 
   final Dependency dependency;
-  final Widget startScreen;
   final List<SingleChildCloneableWidget> providers;
+  final Widget startScreen;
 
   const App({
     Key key,
-    @required this.providers,
     @required this.dependency,
-    @required this.startScreen
+    @required this.providers,
+    @required this.startScreen,
   }) : super(key: key);
 
   @override
@@ -79,7 +81,7 @@ class _AppState extends State<App> {
     if (localizator != null)
       return MaterialApp(
         locale: Localizator.forcedLocale(),
-        theme: widget.dependency.of(),
+        theme: widget.dependency<ThemeData>(),
         supportedLocales: localizator.supportedLocales,
         localizationsDelegates: [
           localizator,
@@ -96,7 +98,7 @@ class _AppState extends State<App> {
   }
 
   Widget _childBuilder(BuildContext context, Widget child) {
-    final ScrollBehavior scrollBehavior = widget.dependency.of();
+    final ScrollBehavior scrollBehavior = widget.dependency();
     if (scrollBehavior != null) {
       return ScrollConfiguration(
         behavior: scrollBehavior,

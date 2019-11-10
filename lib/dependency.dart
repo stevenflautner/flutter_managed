@@ -6,7 +6,7 @@ class Dependency {
 
   Dependency(this._data);
 
-  T of<T>() {
+  T call<T>() {
     if (_data != null) {
       final matcher = TypeMatcher<T>();
 
@@ -17,11 +17,6 @@ class Dependency {
     }
     return null;
   }
-}
-
-class DependencyNotFoundError extends Error {
-  @override
-  String toString() => 'Dependency was not found by the provided type';
 }
 
 class NoOverscrollGlow extends ScrollBehavior {
