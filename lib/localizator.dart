@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_backend/backend.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'locator.dart';
@@ -56,5 +57,10 @@ class Localizator extends LocalizationsDelegate<Localization> {
   bool shouldReload(Localizator old) => false;
 
   Iterable<Locale> get supportedLocales => supportedCodes.map((code) => Locale(code));
+
+  void changeLanguage(BuildContext context, String languageCode) {
+    get<SharedPreferences>().setString('languageCode', languageCode);
+    App.of(context).rebuild();
+  }
 
 }
