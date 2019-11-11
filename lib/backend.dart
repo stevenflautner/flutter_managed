@@ -20,6 +20,7 @@ void run({
   _Registrator registrator,
   @required Widget startScreen,
 }) async {
+  WidgetsFlutterBinding.ensureInitialized();
   final locator = Locator();
   final dependency = Dependency(initializer != null ? await initializer() : null);
 
