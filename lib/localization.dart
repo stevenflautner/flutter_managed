@@ -16,7 +16,7 @@ import 'locator.dart';
 class Localization {
 
   final Locale locale;
-  final Map<String, String> _strings;
+  final Map<String, dynamic> _strings;
 
   Localization(this.locale, this._strings);
 
