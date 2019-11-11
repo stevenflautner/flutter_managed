@@ -81,6 +81,7 @@ class _AppState extends State<App> {
 
     if (localizator != null)
       return MaterialApp(
+        home: widget.startScreen,
         locale: Localizator.forcedLocale(),
         theme: widget.dependency<ThemeData>(),
         supportedLocales: localizator.supportedLocales,
