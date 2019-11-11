@@ -37,6 +37,7 @@ void run({
     providers: providers,
     dependency: dependency,
     startScreen: startScreen,
+    parentBuilder: parent,
   ));
 }
 
@@ -105,7 +106,10 @@ class _AppState extends State<App> {
       );
     }
 
-    return widget.parentBuilder(context, child);
+    if (widget.parentBuilder == null)
+      return child;
+    else
+      return widget.parentBuilder(context, child);
   }
 
   Widget _childBuilder(BuildContext context, Widget child) {
