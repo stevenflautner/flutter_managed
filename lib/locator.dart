@@ -18,8 +18,8 @@ SingleChildCloneableWidget pass<T>(T value, { Widget child }) {
 }
 
 void service<T>(T service) =>  _locator.registerConstant(service);
-void lazyService<T>(Builder<T> service) =>  _locator.registerLazy(service);
-void repository<T>(Builder<T> repository) =>  _locator.registerLazy(repository);
+void lazyService<T>(_Builder<T> service) =>  _locator.registerLazy(service);
+void repository<T>(_Builder<T> repository) =>  _locator.registerLazy(repository);
 
 class Locator {
 
@@ -39,8 +39,8 @@ class Locator {
   }
 
   void registerConstant<T>(T instance) => _instances[T] = _Constant(instance);
-  void registerLazy<T>(Builder<T> builder) => _instances[T] = _Lazy(builder);
-  void registerFactory<T>(Builder<T> builder) => _instances[T] = _Factory(builder);
+  void registerLazy<T>(_Builder<T> builder) => _instances[T] = _Lazy(builder);
+  void registerFactory<T>(_Builder<T> builder) => _instances[T] = _Factory(builder);
 
 //  void style<T>(T style) =>  _registerConstant(style);
 //  void service<T>(T service) =>  _registerConstant(service);
@@ -61,7 +61,7 @@ class _Constant<T> implements _Instance<T> {
   T get() => instance;
 }
 class _Factory<T> implements _Instance<T> {
-  final Builder<T> builder;
+  final _Builder<T> builder;
 
   const _Factory(this.builder);
 
@@ -69,7 +69,7 @@ class _Factory<T> implements _Instance<T> {
   T get() => builder();
 }
 class _Lazy<T> implements _Instance<T> {
-  final Builder<T> builder;
+  final _Builder<T> builder;
   T instance;
 
   _Lazy(this.builder);
@@ -82,4 +82,4 @@ class _Lazy<T> implements _Instance<T> {
   }
 }
 
-typedef Builder<T> = T Function();
+typedef _Builder<T> = T Function();
