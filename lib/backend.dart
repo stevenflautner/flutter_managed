@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_backend/localization.dart';
+import 'package:flutter_backend/localizator.dart';
 import 'package:flutter_backend/locator.dart';
 import 'package:flutter_backend/style.dart';
 import 'package:provider/provider.dart';
