@@ -34,6 +34,7 @@ class Locator {
 
   T get<T>() {
     final instance = _instances[T];
+    if (instance == null) throw ArgumentError("Object not registered for type $T");
     return instance.get() as T;
   }
 
