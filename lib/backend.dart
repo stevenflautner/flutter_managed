@@ -13,12 +13,14 @@ import 'dependency.dart';
 
 typedef FutureOr<Iterable<dynamic>> Initializer();
 typedef FutureOr<Iterable<SingleChildCloneableWidget>> _Registrator(Dependency dependency);
+typedef Widget ParentBuilder(BuildContext context, Widget child);
 
 void run({
   @required String title,
   Initializer initializer,
   _Registrator registrator,
   @required Widget startScreen,
+  ParentBuilder parent,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
   final locator = Locator();
@@ -43,12 +45,14 @@ class App extends StatefulWidget {
   final Dependency dependency;
   final List<SingleChildCloneableWidget> providers;
   final Widget startScreen;
+  final ParentBuilder parentBuilder;
 
   const App({
     Key key,
     @required this.dependency,
     @required this.providers,
     @required this.startScreen,
+    @required this.parentBuilder,
   }) : super(key: key);
 
   @override
@@ -79,8 +83,10 @@ class _AppState extends State<App> {
       localizator = get();
     } on ArgumentError catch(_) {}
 
-    if (localizator != null)
-      return MaterialApp(
+    Widget child;
+
+    if (localizator != null) {
+      child = MaterialApp(
         home: widget.startScreen,
         locale: Localizator.forcedLocale(),
         theme: widget.dependency<ThemeData>(),
@@ -92,11 +98,14 @@ class _AppState extends State<App> {
         ],
         builder: _childBuilder,
       );
+    } else {
+      child = MaterialApp(
+        home: widget.startScreen,
+        builder: _childBuilder,
+      );
+    }
 
-    return MaterialApp(
-      home: widget.startScreen,
-      builder: _childBuilder,
-    );
+    return widget.parentBuilder(context, child);
   }
 
   Widget _childBuilder(BuildContext context, Widget child) {
