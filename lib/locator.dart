@@ -12,7 +12,7 @@ extension Provide on BuildContext {
   T depends<T>() => Provider.of<T>(this);
 }
 
-SingleChildCloneableWidget pass<T>(T value, { Widget child }) {
+SingleChildCloneableWidget Pass<T>(T value, { Widget child }) {
   if (T is ChangeNotifier) return ChangeNotifierProvider.value(value: value as ChangeNotifier, child: child);
   return Provider.value(value: value, child: child);
 }
