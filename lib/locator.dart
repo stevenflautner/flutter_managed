@@ -43,6 +43,8 @@ class Locator {
   void registerLazy<T>(_Builder<T> builder) => _instances[T] = _Lazy(builder);
   void registerFactory<T>(_Builder<T> builder) => _instances[T] = _Factory(builder);
 
+  void remove<T>() => _instances[T] = null;
+
 //  void style<T>(T style) =>  _registerConstant(style);
 //  void service<T>(T service) =>  _registerConstant(service);
 //  void lazyService<T>(Builder<T> service) =>  _registerLazy(service);
