@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 Locator _locator;
 
@@ -12,10 +13,18 @@ extension Provide on BuildContext {
   T depends<T>() => Provider.of<T>(this);
 }
 
-SingleChildCloneableWidget Pass<T>(T value, { Widget child }) {
-  if (T is ChangeNotifier) return ChangeNotifierProvider.value(value: value as ChangeNotifier, child: child);
-  if (T is ValueNotifier) return ListenableProvider.value(value: value as ValueNotifier, child: child);
+SingleChildWidget Pass(dynamic value, { Widget child }) {
+  if (value is ChangeNotifier) return ChangeNotifierProvider.value(value: value as ChangeNotifier, child: child);
+  if (value is ValueNotifier) return ListenableProvider.value(value: value as ValueNotifier, child: child);
   return Provider.value(value: value, child: child);
+}
+
+MultiProvider PassMulti(List<dynamic> values, { Widget child }) {
+  final providers = List<SingleChildWidget>();
+  for (dynamic value in values) {
+    providers.add(Pass(value));
+  }
+  return MultiProvider(providers: providers, child: child);
 }
 
 void service<T>(T service) =>  _locator.registerConstant(service);

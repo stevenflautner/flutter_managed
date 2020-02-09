@@ -7,12 +7,13 @@ import 'package:flutter_backend/locator.dart';
 import 'package:flutter_backend/style.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dependency.dart';
 
 typedef FutureOr<Iterable<dynamic>> Initializer();
-typedef FutureOr<Iterable<SingleChildCloneableWidget>> _Registrator(Dependency dependency);
+typedef FutureOr<Iterable<SingleChildWidget>> _Registrator(Dependency dependency);
 typedef Widget ParentBuilder(BuildContext context, Widget child);
 
 void run({
@@ -44,7 +45,7 @@ void run({
 class App extends StatefulWidget {
 
   final Dependency dependency;
-  final List<SingleChildCloneableWidget> providers;
+  final List<SingleChildWidget> providers;
   final Widget startScreen;
   final ParentBuilder parentBuilder;
 
