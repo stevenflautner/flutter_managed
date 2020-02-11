@@ -13,19 +13,19 @@ extension Provide on BuildContext {
   T depends<T>() => Provider.of<T>(this);
 }
 
-SingleChildWidget Pass<T>(T value, { Widget child }) {
-  if (value is ChangeNotifier) return ChangeNotifierProvider.value(value: value as ChangeNotifier, child: child);
-  if (value is ValueNotifier) return ListenableProvider.value(value: value as ValueNotifier, child: child);
-  return Provider<T>.value(value: value, child: child);
+extension Pass on Object {
+  SingleChildWidget pass({ Widget child }) {
+    if (this is ChangeNotifier) return ChangeNotifierProvider.value(value: this as ChangeNotifier, child: child);
+    if (this is ValueNotifier) return ChangeNotifierProvider.value(value: this as ValueNotifier, child: child);
+    return Provider.value(value: this, child: child);
+  }
 }
 
-MultiProvider PassMulti(List<dynamic> values, { Widget child }) {
-  final providers = List<SingleChildWidget>();
-  for (dynamic value in values) {
-    providers.add(Pass(value));
-  }
-  return MultiProvider(providers: providers, child: child);
-}
+//SingleChildWidget Pass<T>(T value, { Widget child }) {
+//  if (value is ChangeNotifier) return ChangeNotifierProvider.value(value: value as ChangeNotifier, child: child);
+//  if (value is ValueNotifier) return ListenableProvider.value(value: value as ValueNotifier, child: child);
+//  return Provider<T>.value(value: value, child: child);
+//}
 
 void service<T>(T service) =>  _locator.registerConstant(service);
 void lazyService<T>(_Builder<T> service) =>  _locator.registerLazy(service);
