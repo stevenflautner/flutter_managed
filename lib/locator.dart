@@ -13,10 +13,10 @@ extension Provide on BuildContext {
   T depends<T>() => Provider.of<T>(this);
 }
 
-SingleChildWidget Pass(dynamic value, { Widget child }) {
-  if (value is ChangeNotifier) return ChangeNotifierProvider.value(value: value as ChangeNotifier, child: child);
-  if (value is ValueNotifier) return ListenableProvider.value(value: value as ValueNotifier, child: child);
-  return Provider.value(value: value, child: child);
+SingleChildWidget Pass<T>(T value, { Widget child }) {
+  if (value is ChangeNotifier) return ChangeNotifierProvider.value(value: value, child: child);
+  if (value is ValueNotifier) return ListenableProvider.value(value: value, child: child);
+  return Provider<T>.value(value: value, child: child);
 }
 
 MultiProvider PassMulti(List<dynamic> values, { Widget child }) {
@@ -52,7 +52,7 @@ class Locator {
   void registerLazy<T>(_Builder<T> builder) => _instances[T] = _Lazy(builder);
   void registerFactory<T>(_Builder<T> builder) => _instances[T] = _Factory(builder);
 
-  void remove<T>() => _instances[T] = null;
+//  void remove<T>() => _instances[T] = null;
 
 //  void style<T>(T style) =>  _registerConstant(style);
 //  void service<T>(T service) =>  _registerConstant(service);
