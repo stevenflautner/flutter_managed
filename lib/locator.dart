@@ -13,11 +13,11 @@ extension Provide on BuildContext {
   T depends<T>() => Provider.of<T>(this);
 }
 
-extension Pass on Object {
+extension Pass<T> on T {
   SingleChildWidget pass({ Widget child }) {
     if (this is ChangeNotifier) return ChangeNotifierProvider.value(value: this as ChangeNotifier, child: child);
     if (this is ValueNotifier) return ChangeNotifierProvider.value(value: this as ValueNotifier, child: child);
-    return Provider.value(value: this, child: child);
+    return Provider<T>.value(value: this, child: child);
   }
 }
 
