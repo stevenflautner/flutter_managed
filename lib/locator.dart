@@ -14,8 +14,8 @@ extension Provide on BuildContext {
 }
 
 SingleChildWidget Pass<T>(T value, { Widget child }) {
-  if (value is ChangeNotifier) return ChangeNotifierProvider.value(value: value, child: child);
-  if (value is ValueNotifier) return ListenableProvider.value(value: value, child: child);
+  if (value is ChangeNotifier) return ChangeNotifierProvider.value(value: value as ChangeNotifier, child: child);
+  if (value is ValueNotifier) return ListenableProvider.value(value: value as ValueNotifier, child: child);
   return Provider<T>.value(value: value, child: child);
 }
 
