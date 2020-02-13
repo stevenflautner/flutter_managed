@@ -41,25 +41,30 @@ class Localizator extends LocalizationsDelegate<Localization> {
 
   @override
   Future<Localization> load(Locale locale) async {
-    final localization = Localization(
+    if (localization == null)
+      await _load(locale);
+
+    return localization;
+  }
+
+  Future<void> _load(Locale locale) async {
+    this.localization = Localization(
       locale,
       jsonDecode(
         await rootBundle.loadString('lang/${locale.languageCode}.json')
       )
     );
-    this.localization = localization;
+  }
 
-    return localization;
+  void changeLanguage(BuildContext context, String languageCode) async {
+    get<SharedPreferences>().setString('languageCode', languageCode);
+    await _load(Locale(languageCode));
+    App.of(context).rebuild();
   }
 
   @override
   bool shouldReload(Localizator old) => false;
 
   Iterable<Locale> get supportedLocales => supportedCodes.map((code) => Locale(code));
-
-  void changeLanguage(BuildContext context, String languageCode) {
-    get<SharedPreferences>().setString('languageCode', languageCode);
-    App.of(context).rebuild();
-  }
 
 }
