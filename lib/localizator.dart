@@ -36,8 +36,7 @@ class Localizator extends LocalizationsDelegate<Localization> {
 
   static Locale forcedLocale() {
     final stored = get<SharedPreferences>().getString('languageCode');
-    if (stored != null) return Locale(stored);
-    return null;
+    return stored != null ? Locale(stored) : null;
   }
 
   @override
@@ -48,7 +47,7 @@ class Localizator extends LocalizationsDelegate<Localization> {
         await rootBundle.loadString('lang/${locale.languageCode}.json')
       )
     );
-    get<Localizator>().localization = localization;
+    this.localization = localization;
 
     return localization;
   }
