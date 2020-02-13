@@ -10,7 +10,7 @@ import 'locator.dart';
 //text(String key) => get<Localizator>().localization.text(key);
 
 extension TextLocalization on String {
-  String localized() => get<Localizator>().localization.text(this);
+  String localized() => get<Localizator>().localization.text(this) ?? this;
 }
 
 class Localization {
