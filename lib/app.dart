@@ -29,7 +29,9 @@ void run({
 
   service(await SharedPreferences.getInstance());
 
-  final providers = await registrator(dependency);
+  List<SingleChildWidget> providers;
+  if (registrator != null)
+     providers = await registrator(dependency);
 
   final overlayStyle = dependency<SystemUiOverlayStyle>();
   if (overlayStyle != null) SystemChrome.setSystemUIOverlayStyle(overlayStyle);
