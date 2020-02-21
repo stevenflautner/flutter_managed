@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_backend/backend.dart';
+import 'package:flutter_managed/app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'locator.dart';

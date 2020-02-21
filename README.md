@@ -1,4 +1,4 @@
-# flutter_backend
+# flutter_managed
 
 A new Flutter package project.
 

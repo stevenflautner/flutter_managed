@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_backend/localizator.dart';
-import 'package:flutter_backend/locator.dart';
-import 'package:flutter_backend/style.dart';
+import 'package:flutter_managed/localizator.dart';
+import 'package:flutter_managed/locator.dart';
+import 'package:flutter_managed/style.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/single_child_widget.dart';
