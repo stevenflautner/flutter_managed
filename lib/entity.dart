@@ -1,9 +1,9 @@
 class Entity {
 
-  Map<String, dynamic> __backingFields;
-  Map<String, dynamic> get _backingFields {
+  Map<String, dynamic> _backingFields;
+  Map<String, dynamic> get backingFields {
     if (_backingFields == null) {
-      __backingFields = {};
+      _backingFields = {};
     }
     return _backingFields;
   }
