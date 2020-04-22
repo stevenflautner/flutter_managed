@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_managed/localizator.dart';
 import 'package:flutter_managed/locator.dart';
+import 'package:flutter_managed/skeleton.dart';
 import 'package:flutter_managed/style.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -22,12 +23,15 @@ void run({
   _Registrator registrator,
   @required Widget startScreen,
   ParentBuilder parent,
+  Skeleton skeleton,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
   final locator = Locator();
   final dependency = Dependency(initializer != null ? await initializer() : null);
 
   service(await SharedPreferences.getInstance());
+
+  skeleton?.loadModules(dependency);
 
   List<SingleChildWidget> providers;
   if (registrator != null)
