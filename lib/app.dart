@@ -30,7 +30,9 @@ void run({
   final locator = Locator();
   final dependency = Dependency(initializer != null ? await initializer() : null);
 
-  service(await SharedPreferences.getInstance());
+//  service(await SharedPreferences.getInstance());
+
+  SharedPreferences.getInstance();
 
   skeleton?.loadModules(dependency);
 
