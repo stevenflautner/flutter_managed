@@ -32,7 +32,7 @@ void run({
 
 //  service(await SharedPreferences.getInstance());
 
-  SharedPreferences.getInstance();
+//  SharedPreferences.getInstance();
 
   skeleton?.loadModules(dependency);
 
