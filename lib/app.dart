@@ -9,7 +9,7 @@ import 'package:flutter_managed/style.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/single_child_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dependency.dart';
 
@@ -29,7 +29,7 @@ void run({
   final locator = Locator();
   final dependency = Dependency(initializer != null ? await initializer() : null);
 
-  service(await SharedPreferences.getInstance());
+//  service(await SharedPreferences.getInstance());
 
   skeleton?.loadModules(dependency);
 
